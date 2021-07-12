@@ -41,8 +41,13 @@ const addTask = (task) => {
 }
 
 //Delete Task
-const deleteTask = (id) => {
-  setTasks(tasks.filter((task) => task.id !== id))
+const deleteTask = async(id) => {
+  const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+    method: 'DELETE',
+  })
+  res.status === 200
+    ? setTasks(tasks.filter((task) => task.id !== id))
+    : alert('Error Deleting This Task')
 };
 
 //Toggle Reminder 

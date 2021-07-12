@@ -6,7 +6,8 @@ import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
 
 //Comes from Tasks.js file originally
-import { useState } from 'react';
+// Use effect is a hook used to create side effects when page loads
+import { useState, useEffect } from 'react';
 
 function App() {
   //Toggles new form
@@ -14,6 +15,23 @@ function App() {
 
   //From Tasks.js
   const [tasks, setTasks] = useState([]);
+
+// Use effect is an arrow function. getTasks receives the data from fetchTasks and then sets tasks to the state
+useEffect(() => {
+  const getTasks = async() => {
+    const tasks = await fetchTasks()
+    setTasks(tasks)
+  }
+  getTasks()
+}, [])
+
+// fetch tasks finds our tasks and returns the data from the server
+const fetchTasks = async() => {
+  const res = await fetch('http://localhost:5000/tasks')
+  const data = await res.json()
+
+  return data
+}
 
 //Add Task
 const addTask = (task) => {
